@@ -1,9 +1,10 @@
-# Data Science and Machine Learning Portfolio
-Repository containing portfolio of data science projects completed for academic, self learning, and professional purposes. Presented in the form of Jupyter Notebooks.
+# Financial Engineering Portfolio
+Repository containing portfolio of financial engineering completed for academic, and self learning. Presented in the form of Code, Powerpoint, Paper, and etc.
 
 Tools
-  - **Python**: NumPy, Pandas, Seaborn, Matplotlib
-  - **Machine Learning**: scikit-learn, TensorFlow, keras
+  - **Python**: NumPy, Pandas, Seaborn, Matplotlib, YahooFinance
+  - **R**: Base R, Tidyverse, Tidyquant
+  - **Excel**: Data Analysis Toolpak, Solver, Pivot table
 
 ## Contents
 - ## Machine Learning
