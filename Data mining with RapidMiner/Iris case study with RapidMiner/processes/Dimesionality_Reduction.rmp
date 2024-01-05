@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="9.10.011">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="9.10.011" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="read_csv" compatibility="9.10.011" expanded="true" height="68" name="Read CSV" width="90" x="45" y="85">
+        <parameter key="csv_file" value="C:\Users\Admin\Desktop\Rapid Miner\iris.csv"/>
+        <parameter key="column_separators" value=","/>
+        <parameter key="trim_lines" value="false"/>
+        <parameter key="use_quotes" value="true"/>
+        <parameter key="quotes_character" value="&quot;"/>
+        <parameter key="escape_character" value="\"/>
+        <parameter key="skip_comments" value="true"/>
+        <parameter key="comment_characters" value="#"/>
+        <parameter key="starting_row" value="1"/>
+        <parameter key="parse_numbers" value="true"/>
+        <parameter key="decimal_character" value="."/>
+        <parameter key="grouped_digits" value="false"/>
+        <parameter key="grouping_character" value=","/>
+        <parameter key="infinity_representation" value=""/>
+        <parameter key="date_format" value=""/>
+        <parameter key="first_row_as_names" value="true"/>
+        <list key="annotations"/>
+        <parameter key="time_zone" value="SYSTEM"/>
+        <parameter key="locale" value="English (United States)"/>
+        <parameter key="encoding" value="x-windows-874"/>
+        <parameter key="read_all_values_as_polynominal" value="false"/>
+        <list key="data_set_meta_data_information">
+          <parameter key="0" value="sLength.true.real.attribute"/>
+          <parameter key="1" value="sWidth.true.real.attribute"/>
+          <parameter key="2" value="pLength.true.real.attribute"/>
+          <parameter key="3" value="pWidth.true.real.attribute"/>
+          <parameter key="4" value="class.true.polynominal.label"/>
+        </list>
+        <parameter key="read_not_matching_values_as_missings" value="false"/>
+      </operator>
+      <operator activated="true" class="multiply" compatibility="9.10.011" expanded="true" height="103" name="Multiply" width="90" x="179" y="187"/>
+      <operator activated="true" class="principal_component_analysis" compatibility="9.10.011" expanded="true" height="103" name="PCA" width="90" x="581" y="238">
+        <parameter key="dimensionality_reduction" value="keep variance"/>
+        <parameter key="variance_threshold" value="0.95"/>
+        <parameter key="number_of_components" value="1"/>
+      </operator>
+      <operator activated="true" class="weight_by_information_gain_ratio" compatibility="9.10.011" expanded="true" height="82" name="Weight by Information Gain Ratio" width="90" x="380" y="85">
+        <parameter key="normalize_weights" value="false"/>
+        <parameter key="sort_weights" value="true"/>
+        <parameter key="sort_direction" value="descending"/>
+      </operator>
+      <operator activated="true" class="select_by_weights" compatibility="9.10.011" expanded="true" height="103" name="Select by Weights" width="90" x="581" y="85">
+        <parameter key="weight_relation" value="top k"/>
+        <parameter key="weight" value="1.0"/>
+        <parameter key="k" value="3"/>
+        <parameter key="p" value="0.5"/>
+        <parameter key="deselect_unknown" value="true"/>
+        <parameter key="use_absolute_weights" value="true"/>
+      </operator>
+      <connect from_op="Read CSV" from_port="output" to_op="Multiply" to_port="input"/>
+      <connect from_op="Multiply" from_port="output 1" to_op="Weight by Information Gain Ratio" to_port="example set"/>
+      <connect from_op="Multiply" from_port="output 2" to_op="PCA" to_port="example set input"/>
+      <connect from_op="PCA" from_port="example set output" to_port="result 2"/>
+      <connect from_op="Weight by Information Gain Ratio" from_port="weights" to_op="Select by Weights" to_port="weights"/>
+      <connect from_op="Weight by Information Gain Ratio" from_port="example set" to_op="Select by Weights" to_port="example set input"/>
+      <connect from_op="Select by Weights" from_port="example set output" to_port="result 1"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+    </process>
+  </operator>
+</process>
